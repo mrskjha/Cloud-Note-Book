@@ -9,7 +9,6 @@ const Notes = () => {
   const { notes, getNotes } = useContext(NoteContext);
   useEffect(() => {
     if(localStorage.getItem('token')){
-
       getNotes();
     }
     else{

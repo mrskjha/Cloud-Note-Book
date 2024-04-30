@@ -22,9 +22,10 @@ const AddNote = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto ">
+    <div className="max-w-md mx-auto  ">
+      <h1 className="text-white text-2xl font-bold mb-4">Add a Note</h1>
       <form>
-        <div className="mb-4">
+        <div className="mb-4 mt-4">
           <label htmlFor="title" className="block text-white font-bold mb-2">
             Title
           </label>

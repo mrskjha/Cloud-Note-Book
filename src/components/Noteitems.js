@@ -9,13 +9,6 @@ const NoteItem = ({ note }) => {
   const handleDelete = () => {
     deleteNote(note._id); // Using the provided function to delete notes
   };
-
- // const handleEdit = () => {
-    // Here you need to pass the necessary parameters to the updateNote function
-   // const updatedNote = { title: "Updated Title", description: "Updated Description" };
-   // updateNote(note._id, updatedNote); // Pass the note ID and updated note content
- // };
-
   return (
     <div className="card bg-gray-100 flex-wrap rounded-lg p-4 h-52 w-52 ml-2 mb-2 mt-20 shadow-md relative">
       <h3 className="card__title text-xl font-bold">{note.title}</h3>

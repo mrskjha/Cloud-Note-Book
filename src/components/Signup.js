@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-// import { Outlet } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Home } from "./Home";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     name: "",
     email: "",
@@ -35,6 +36,7 @@ const Signup = () => {
       // Redirect
       localStorage.setItem("token", json.authtoken);
       setLoggedIn(true);
+      navigate("/");
       alert("Account Creted Successfully ","suceess");
     } else {
       alert("Signup failed. Please try again.","danger");

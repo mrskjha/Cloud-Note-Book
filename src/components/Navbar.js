@@ -1,15 +1,12 @@
-import React, { useState, } from "react";
+import React from "react";
 import { Link,useNavigate } from "react-router-dom";
 import { FaRegUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-
   const handleLogout = () => {
     localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    navigate("/");
+    navigate("/login");
   };
 
   return (
@@ -19,6 +16,7 @@ const Navbar = () => {
           to="/"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
+          <img src="https://img.freepik.com/free-photo/laptop-near-paper-clouds_23-2147772331.jpg" className="h-10 w-10 rounded-full" alt="logo" />
           <span className="self-center text-2xl font-bold whitespace-nowrap dark:text-white">
             CloudNotes
           </span>
@@ -42,19 +40,19 @@ const Navbar = () => {
             </Link>
 
             {/* Conditional rendering of login/logout buttons */}
-            {!isLoggedIn ? (
+            {!localStorage.getItem("token")? (
               <form>
                 <Link
                   to="/login"
                   type="button"
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 "
                 >
                   Login
                 </Link>
                 <Link
                   to="/signup"
                   type="button"
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  className="text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 "
                 >
                   SignUp
                 </Link>
@@ -63,7 +61,7 @@ const Navbar = () => {
               <>
                 <button
                   onClick={handleLogout}
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  className="text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 "
                 >
                   Logout
                   </button>
