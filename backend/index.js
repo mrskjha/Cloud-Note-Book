@@ -1,8 +1,13 @@
 const connectToMongo = require('./db');
 const express = require('express');
+const cors = require('cors');
+
+
+const port = 5000;
+
 
 const app = express();
-const port = 5000;
+app.use(cors());
 
 (async () => {
     try {
@@ -16,7 +21,7 @@ const port = 5000;
         app.use('/api/notes', require('./routes/notes'));
 
         app.listen(port, () => {
-            console.log(`Example app listening at http://localhost:${port}`);
+            console.log(`cloudNotes backend listening at http://localhost:${port}`);
         });
     } catch (error) {
         console.error('Error starting server:', error.message);

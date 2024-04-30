@@ -3,7 +3,7 @@ const User = require("../models/User");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
-var fetchuser = require("../middlerware/fetchuser");
+const fetchuser = require("../middlerware/fetchuser");
 
 const JWT_SECRET = "sunnyisagood$boy"; // Consider using a stronger secret
 
@@ -20,10 +20,11 @@ route.post(
     }),
   ],
   async (req, res) => {
+    let success = false;
     // If there are errors, return Bad request and the errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({success, errors: errors.array() });
     }
 
     try {
@@ -32,7 +33,7 @@ route.post(
       if (existingUser) {
         return res
           .status(400)
-          .json({ error: "User with this email already exists" });
+          .json({success, error: "User with this email already exists" });
       }
 
       // Create a new user with secure password hashing
@@ -48,12 +49,12 @@ route.post(
       // Create a JWT token with appropriate payload (avoid exposing sensitive data)
       const payload = { user: { id: user.id } }; // Consider excluding unnecessary information
       const authtoken = jwt.sign(payload, JWT_SECRET);
+      success = true;
 
-      res.json({ authtoken });
+      res.json({success, authtoken });
     } catch (err) {
       console.error(err.message);
-      // Handle specific errors more gracefully (e.g., validation errors, database errors)
-      res.status(500).json({ error: "Internal Server Error" }); // Consider more informative errors
+      res.status(500).json({ error: "Internal Server Error" });
     }
   }
 );
@@ -66,6 +67,7 @@ route.post(
     body("password", "Password cannot be blank").exists(),
   ],
   async (req, res) => {
+    let success = false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -81,14 +83,16 @@ route.post(
 
       const passwordCompare = await bcrypt.compare(password, user.password);
       if (!passwordCompare) {
-        return res.status(401).json({ error: "Invalid credentials" });
+        success = false;
+        return res.status(401).json({success, error: "Invalid credentials" });
       }
 
       // Create a JWT token with appropriate payload
       const payload = { user: { id: user.id } }; // Consider excluding unnecessary information
       const authtoken = jwt.sign(payload, JWT_SECRET);
+      success = true;
 
-      res.json({ authtoken });
+      res.json({ success,authtoken });
     } catch (err) {
       console.error(err.message);
       res.status(500).json({ error: "Internal Server Error" }); // Consider more informative errors
@@ -96,16 +100,19 @@ route.post(
   }
 );
 
-//Route 3: Get loggedin a user details using using: POST "/api/auth/getuser". login require
+
+
+//Route 3: Get logged-in user details using: POST "/api/auth/getuser". login required
 route.post("/getuser", fetchuser, async (req, res) => {
   try {
-    userId = req.user.id;
-    const user = await User.findById(userId).select("-password");
+    user = req.user.id;
+    const user = await User.findById(user).select("-password");
     res.send(user);
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 module.exports = route;
