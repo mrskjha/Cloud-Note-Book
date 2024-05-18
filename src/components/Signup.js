@@ -19,7 +19,7 @@ const Signup = () => {
       alert("Passwords do not match");
       return;
     }
-    const response = await fetch("http://cloudnotesbook.netlify.app/signup", {
+    const response = await fetch("https://cloudnotesbook.netlify.app/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
