@@ -7,7 +7,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("https://cloudnotesbook.netlify.app/login", {
+    const response = await fetch("https://cloudnotesbook.netlify.app/api/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
